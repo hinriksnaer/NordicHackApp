@@ -48,7 +48,7 @@ class _AnimatedFabState extends State<AnimatedFab>
               _buildExpandedBackground(),
               _buildOption(Icons.local_pizza, 0.00, 'Food Allergy'),
               _buildOption(Icons.local_pharmacy, -math.pi / 3, 'Drug Allergy'),
-              _buildOption(Icons.access_time, -2 * math.pi / 3, 'Drug Information'),
+              _buildOption(Icons.access_time, -2 * math.pi / 3, 'Drug Info'),
               _buildOption(Icons.error_outline, math.pi, 'Lorem Ipsum'),
               _buildFabCore(),
             ],

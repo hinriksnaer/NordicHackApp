@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:barcode_scan_example/pages/task_row.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:barcode_scan_example/pages/animated_fab.dart';
@@ -20,6 +21,7 @@ class _MainPageState extends State<MainPage> {
       new GlobalKey<AnimatedListState>();
   final double _imageHeight = 256.0;
   ListModel listModel;
+  Map data = null;
   bool showOnlyCompleted = false;
   String scanTypeText = 'Food Allergy';
   String barcode = "";
@@ -158,13 +160,15 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-/*
+
   Widget _buildTasksList() {
     return new Expanded(
       child: new AnimatedList(
-        initialItemCount: tasks.length,
+        initialItemCount: tasks.length, 
         key: _listKey,
         itemBuilder: (context, index, animation) {
+          print("${data}Þetta er helvítis darta");
+          
           return new TaskRow(
             task: listModel[index],
             animation: animation,
@@ -173,9 +177,9 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
-*/
-  Widget _buildTasksList() {
-    /*
+
+  /*Widget _buildTasksList() {
+    
     return new Expanded(
       child: new AnimatedList(
         initialItemCount: tasks.length,
@@ -185,9 +189,9 @@ class _MainPageState extends State<MainPage> {
         },
       ),
     );
-    */
-    return Center(child: Text(barcode));
-  }
+    
+    //return Center(child: Text(barcode));
+  }*/
 
   Widget _buildMyTasksHeader() {
     return new Padding(
@@ -200,7 +204,7 @@ class _MainPageState extends State<MainPage> {
             style: new TextStyle(fontSize: 34.0),
           ),
           new Text(
-            'FEBRUARY 8, 2015',
+            'Bjarkargrund 31, 300 Akranes',
             style: new TextStyle(color: Colors.grey, fontSize: 12.0),
           ),
         ],
@@ -242,9 +246,11 @@ class _MainPageState extends State<MainPage> {
 
   void _handleImageScan(String scanType) async {
     await _scan(scanType);
-    Map data = await _getAllergyInformation(barcode);
+    data = await _getAllergyInformation(barcode);
+    //Here comes the data from the postrequest
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     print(data);
+    _buildTasksList();
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 
   }

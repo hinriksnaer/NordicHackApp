@@ -15,18 +15,12 @@ class TaskRow extends StatelessWidget {
       child: new SizeTransition(
         sizeFactor: animation,
         child: new Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: new Row(
             children: <Widget>[
               new Padding(
                 padding:
-                    new EdgeInsets.symmetric(horizontal: 32.0 - dotSize / 2),
-                child: new Container(
-                  height: dotSize,
-                  width: dotSize,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle, color: task.color),
-                ),
+                    new EdgeInsets.symmetric(horizontal: 32.0 - dotSize / 2),               
               ),
               new Expanded(
                 child: new Column(
@@ -34,7 +28,7 @@ class TaskRow extends StatelessWidget {
                   children: <Widget>[
                     new Text(
                       task.name,
-                      style: new TextStyle(fontSize: 18.0),
+                      style: new TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
                     ),
                     new Text(
                       task.category,
