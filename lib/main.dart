@@ -205,7 +205,7 @@ Widget _buildTasksList() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'My Cabinet',
+            'My Cabinets',
             style: new TextStyle(fontSize: 34.0),
           ),
           new Text(
