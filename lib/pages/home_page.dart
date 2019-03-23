@@ -9,6 +9,8 @@ import 'package:barcode_scan_example/pages/list_model.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 
+import '../widget/bottom_info.dart';
+
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
 
@@ -17,10 +19,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final GlobalKey<AnimatedListState> _listKey =
-      new GlobalKey<AnimatedListState>();
+
   final double _imageHeight = 256.0;
-  ListModel listModel;
   Map data = null;
   bool showOnlyCompleted = false;
   String scanTypeText = 'Food Allergy';
@@ -29,7 +29,6 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    //listModel = new ListModel(_listKey, tasks);
   }
 
   @override
@@ -47,7 +46,7 @@ class _MainPageState extends State<MainPage> {
           _buildIamge(),
           _buildTopHeader(),
           _buildProfileRow(),
-          _buildBottomPart(),
+          BottomInfo(scanTypeText, data),
           _buildFab(),
         ],
       ),
@@ -147,72 +146,6 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _buildBottomPart() {
-    return new Padding(
-      padding: new EdgeInsets.only(top: _imageHeight),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _buildMyTasksHeader(),
-          _buildTasksList(),
-        ],
-      ),
-    );
-  }
-
-
-  Widget _buildTasksList() {
-    return new Expanded(
-      child: new AnimatedList(
-       // initialItemCount: tasks.length, 
-        key: _listKey,
-        itemBuilder: (context, index, animation) {
-          print("${data}Þetta er helvítis datað");
-          listModel.insert(index, data['name'], data['category']);
-
-          return new TaskRow(
-            task: listModel[index],
-            animation: animation,
-          );
-        },
-      ),
-    );
-  }
-
-  /*Widget _buildTasksList() {
-    
-    return new Expanded(
-      child: new AnimatedList(
-        initialItemCount: tasks.length,
-        key: _listKey,
-        itemBuilder: (context, index, animation) {
-          print("im being pressed!!!!!!!!!!!!!!!!!!");
-        },
-      ),
-    );
-    
-    //return Center(child: Text(barcode));
-  }*/
-
-  Widget _buildMyTasksHeader() {
-    return new Padding(
-      padding: new EdgeInsets.only(left: 64.0),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Text(
-            scanTypeText,
-            style: new TextStyle(fontSize: 34.0),
-          ),
-          new Text(
-            'Bjarkargrund 31, 300 Akranes',
-            style: new TextStyle(color: Colors.grey, fontSize: 12.0),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildTimeline() {
     return new Positioned(
       top: 0.0,
@@ -251,7 +184,9 @@ class _MainPageState extends State<MainPage> {
     //Here comes the data from the postrequest
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     print(data);
-    _buildTasksList();
+    setState(() {
+      this.data = data;
+    });
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 
   }
