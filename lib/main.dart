@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 import './pages/home_page.dart';
 
@@ -16,6 +16,12 @@ class MyApp extends StatelessWidget {
       home: new MainPage(),
     );
   }
+}
+*/
+import 'package:barcode_scan_example/Routes.dart'; 
+
+void main() {
+  new Routes();
 }
 
 
