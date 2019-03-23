@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:barcode_scan_example/pages/animated_fab.dart';
 import 'package:barcode_scan_example/pages/diagonal_clipper.dart';
 import 'package:barcode_scan_example/pages/initial_list.dart';
@@ -34,7 +35,7 @@ class _MainPageState extends State<MainPage> {
     return new Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _scan('bla');
+          _handleImageScan('bla');
         },
         child: Icon(Icons.camera_alt),
       ),
@@ -219,7 +220,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  void _scan(String scanType) async {
+  Future _scan(String scanType) async {
     try {
       String barcode = await BarcodeScanner.scan();
       setState(() => this.barcode = barcode);
@@ -231,10 +232,77 @@ class _MainPageState extends State<MainPage> {
       } else {
         setState(() => this.barcode = 'Unknown error: $e');
       }
-    } on FormatException{
-      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } on FormatException {
+      setState(() => this.barcode =
+          'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
       setState(() => this.barcode = 'Unknown error: $e');
     }
   }
+
+  void _handleImageScan(String scanType) async {
+    await _scan(scanType);
+    Map data = await _getAllergyInformation(barcode);
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    print(data);
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+  }
+
+  Future<Map> _getAllergyInformation(String barcode) async {
+    final Map<String, dynamic> allergyData = {'barcode': barcode};
+
+    final http.Response response = await http.post(
+        'https://nordichealth-heroku.herokuapp.com/medication',
+        body: json.encode(allergyData),
+        headers: {'Content-Type': 'application/json'});
+
+    return json.decode(response.body);
+  }
+
+  /*
+  Future<bool> addProduct(
+      String title, String description, String image, double price) async {
+    _isLoading = true;
+    notifyListeners();
+    final Map<String, dynamic> productData = {
+      'title': title,
+      'description': description,
+      'image':
+          'https://cdn.pixabay.com/photo/2015/10/02/12/00/chocolate-968457_960_720.jpg',
+      'price': price,
+      'userEmail': _authenticatedUser.email,
+      'userId': _authenticatedUser.id,
+    };
+    try {
+      final http.Response response = await http.post(
+        'https://flutter-products-cd0ed.firebaseio.com/products.json?auth${_authenticatedUser.token}',
+        body: json.encode(productData),
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      final Product newProduct = Product(
+          id: responseData['name'],
+          title: title,
+          description: description,
+          image: image,
+          price: price,
+          userEmail: _authenticatedUser.email,
+          userId: _authenticatedUser.id);
+      _products.add(newProduct);
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (error) {
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+  */
 }
