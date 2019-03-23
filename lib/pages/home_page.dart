@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:barcode_scan_example/pages/task.dart';
 import 'package:barcode_scan_example/pages/task_row.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:barcode_scan_example/pages/animated_fab.dart';
 import 'package:barcode_scan_example/pages/diagonal_clipper.dart';
-import 'package:barcode_scan_example/pages/initial_list.dart';
 import 'package:barcode_scan_example/pages/list_model.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    listModel = new ListModel(_listKey, tasks);
+    //listModel = new ListModel(_listKey, tasks);
   }
 
   @override
@@ -164,11 +164,12 @@ class _MainPageState extends State<MainPage> {
   Widget _buildTasksList() {
     return new Expanded(
       child: new AnimatedList(
-        initialItemCount: tasks.length, 
+       // initialItemCount: tasks.length, 
         key: _listKey,
         itemBuilder: (context, index, animation) {
-          print("${data}Þetta er helvítis darta");
-          
+          print("${data}Þetta er helvítis datað");
+          listModel.insert(index, data['name'], data['category']);
+
           return new TaskRow(
             task: listModel[index],
             animation: animation,
@@ -256,7 +257,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<Map> _getAllergyInformation(String barcode) async {
-    final Map<String, dynamic> allergyData = {'barcode': barcode};
+    final Map<String, dynamic> allergyData = {'barcode': barcode}; 
 
     final http.Response response = await http.post(
         'https://nordichealth-heroku.herokuapp.com/medication',

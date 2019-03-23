@@ -10,8 +10,9 @@ class ListModel {
 
   AnimatedListState get _animatedList => listKey.currentState;
 
-  void insert(int index, Task item) {
-    items.insert(index, item);
+  void insert(int index, String name, String category) {
+    Task task = new Task(name: name, category: category, completed: true);
+    items.insert(index, task);
     _animatedList.insertItem(index, duration: new Duration(milliseconds: 150));
   }
 

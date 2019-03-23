@@ -37,13 +37,6 @@ class TaskRow extends StatelessWidget {
                   ],
                 ),
               ),
-              new Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: new Text(
-                  task.time,
-                  style: new TextStyle(fontSize: 12.0, color: Colors.grey),
-                ),
-              ),
             ],
           ),
         ),
