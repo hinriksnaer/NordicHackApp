@@ -4,8 +4,8 @@ import 'package:barcode_scan_example/pages/animated_fab.dart';
 import 'package:barcode_scan_example/pages/diagonal_clipper.dart';
 import 'package:barcode_scan_example/pages/initial_list.dart';
 import 'package:barcode_scan_example/pages/list_model.dart';
-import 'package:barcode_scan_example/pages/task_row.dart';
-
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -15,10 +15,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final GlobalKey<AnimatedListState> _listKey = new GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _listKey =
+      new GlobalKey<AnimatedListState>();
   final double _imageHeight = 256.0;
   ListModel listModel;
   bool showOnlyCompleted = false;
+  String scanTypeText = 'Food Allergy';
+  String barcode = "";
 
   @override
   void initState() {
@@ -29,6 +32,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _scan('bla');
+        },
+        child: Icon(Icons.camera_alt),
+      ),
       body: new Stack(
         children: <Widget>[
           _buildTimeline(),
@@ -51,14 +60,9 @@ class _MainPageState extends State<MainPage> {
         ));
   }
 
-  void _changeFilterState() {
-    showOnlyCompleted = !showOnlyCompleted;
-    tasks.where((task) => !task.completed).forEach((task) {
-      if (showOnlyCompleted) {
-        listModel.removeAt(listModel.indexOf(task));
-      } else {
-        listModel.insert(tasks.indexOf(task), task);
-      }
+  void _changeFilterState(String scanTypeText) {
+    setState(() {
+      this.scanTypeText = scanTypeText;
     });
   }
 
@@ -152,6 +156,7 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
 /*
   Widget _buildTasksList() {
     return new Expanded(
@@ -168,20 +173,21 @@ class _MainPageState extends State<MainPage> {
     );
   }
 */
-Widget _buildTasksList() {
+  Widget _buildTasksList() {
+    /*
     return new Expanded(
       child: new AnimatedList(
         initialItemCount: tasks.length,
         key: _listKey,
         itemBuilder: (context, index, animation) {
-          print("${_listKey.hashCode}Helgi Grétar");
-          
-
-          
+          print("im being pressed!!!!!!!!!!!!!!!!!!");
         },
       ),
     );
-}
+    */
+    return Center(child: Text(barcode));
+  }
+
   Widget _buildMyTasksHeader() {
     return new Padding(
       padding: new EdgeInsets.only(left: 64.0),
@@ -189,7 +195,7 @@ Widget _buildTasksList() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'My Cabinet',
+            scanTypeText,
             style: new TextStyle(fontSize: 34.0),
           ),
           new Text(
@@ -211,5 +217,24 @@ Widget _buildTasksList() {
         color: Colors.grey[300],
       ),
     );
+  }
+
+  void _scan(String scanType) async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this.barcode = barcode);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          this.barcode = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => this.barcode = 'Unknown error: $e');
+      }
+    } on FormatException{
+      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => this.barcode = 'Unknown error: $e');
+    }
   }
 }

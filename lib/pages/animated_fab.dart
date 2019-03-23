@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class AnimatedFab extends StatefulWidget {
-  final VoidCallback onClick;
+  final Function onClick;
 
   const AnimatedFab({Key key, this.onClick}) : super(key: key);
 
@@ -46,10 +46,10 @@ class _AnimatedFabState extends State<AnimatedFab>
             alignment: Alignment.center,
             children: <Widget>[
               _buildExpandedBackground(),
-              _buildOption(Icons.check_circle, 0.00),
-              _buildOption(Icons.flash_on, -math.pi / 3),
-              _buildOption(Icons.access_time, -2 * math.pi / 3),
-              _buildOption(Icons.error_outline, math.pi),
+              _buildOption(Icons.local_pizza, 0.00, 'Food Allergy'),
+              _buildOption(Icons.local_pharmacy, -math.pi / 3, 'Drug Allergy'),
+              _buildOption(Icons.access_time, -2 * math.pi / 3, 'Drug Information'),
+              _buildOption(Icons.error_outline, math.pi, 'Lorem Ipsum'),
               _buildFabCore(),
             ],
           );
@@ -58,7 +58,7 @@ class _AnimatedFabState extends State<AnimatedFab>
     );
   }
 
-  Widget _buildOption(IconData icon, double angle) {
+  Widget _buildOption(IconData icon, double angle, String scanTypeText) {
     if (_animationController.isDismissed) {
       return Container();
     }
@@ -73,7 +73,7 @@ class _AnimatedFabState extends State<AnimatedFab>
         child: new Padding(
           padding: new EdgeInsets.only(top: 8.0),
           child: new IconButton(
-            onPressed: _onIconClick,
+            onPressed: () => _onIconClick(scanTypeText),
             icon: new Transform.rotate(
               angle: -angle,
               child: new Icon(
@@ -137,8 +137,8 @@ class _AnimatedFabState extends State<AnimatedFab>
     }
   }
 
-  _onIconClick() {
-    widget.onClick();
+  _onIconClick(String scanTypeText) {
+    widget.onClick(scanTypeText);
     close();
   }
 }
