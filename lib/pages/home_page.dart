@@ -37,6 +37,17 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+      print("hehehehehehe ");
+      print(scanTypeText);
+      if(scanTypeText == 'Your Medication'){
+        handleCabinet();        
+        parsedCabinetData("category","nafnið");
+        parsedCabinetData("werwerwer","ewrewr");
+        parsedCabinetData("werr","nafwerwernið");
+        parsedCabinetData("ewrwerwer","werwer");
+        parsedCabinetData("cawerwertegory","werwer");
+        parsedCabinetData("category","nafwerwernið");
+      }
     return new Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {        
@@ -44,7 +55,7 @@ class _MainPageState extends State<MainPage> {
         },
         child: Icon(Icons.camera_alt),
       ),
-      body: new Stack(
+      body: new Stack(        
         children: <Widget>[
           _buildTimeline(),
           _buildIamge(),
@@ -184,10 +195,24 @@ class _MainPageState extends State<MainPage> {
 
     return tasks;
   }
-
+  void parsedCabinetData(String category, String name){
+      taskList.add(new Task(category: category, name:name,completed:true));        
+  }
+  void handleCabinet() async{      
+      while (taskList.length!=0) {
+        taskList.removeAt(0);
+      }
+      setState(() {
+        this.taskList = taskList;
+      });
+      //Map data = await _getDrugsFromSocialNumber('0206929999');
+      //print(data);
+  }
   void _handleImageScan(String scanType) async {
     Map data;
     print(scanType);
+    handleCabinet();
+    
     if (scanType == 'Drug Barcode') {
       await _scan(scanType);
       data = await _getDrugFromBarcode(barcode);  
@@ -206,16 +231,8 @@ class _MainPageState extends State<MainPage> {
     } else if (scanType == 'Food Allergy'){
       //todo
     } else if (scanType == 'Your Medication') {
-      print("HAHAHAHAHAHAHAHAHAHAHAHAHA HAH A H");
-      print(taskList.length);
-      while (taskList.length!=0) {
-        taskList.removeAt(0);
-      }
-      setState(() {
-        this.taskList = taskList;
-      });
-      //Map data = await _getDrugsFromSocialNumber('0206929999');
-      //print(data);
+        
+       
     }
     
 
