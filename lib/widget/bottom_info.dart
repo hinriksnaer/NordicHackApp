@@ -64,7 +64,7 @@ class BottomInfo extends StatelessWidget {
             style: new TextStyle(fontSize: 34.0),
           ),
           new Text(
-            'Bjarkargrund 31, 300 Akranes',
+            '',
             style: new TextStyle(color: Colors.grey, fontSize: 12.0),
           ),
         ],

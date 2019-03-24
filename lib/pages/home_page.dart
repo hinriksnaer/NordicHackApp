@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () {        
           _handleImageScan(scanTypeText);
         },
         child: Icon(Icons.camera_alt),
@@ -178,7 +178,7 @@ class _MainPageState extends State<MainPage> {
         tasks.add(new Task(category: '', name: data['medication']['name'], completed: true)); 
         tasks.add(new Task(category: data['medication']['directions'], name: 'Instructions', completed: true));
         tasks.add(new Task(category: data['medication']['quantity'], name: 'Quantity', completed: true));
-        tasks.add(new Task(category: data['medication']['daysleft'], name: 'days Left', completed: true));
+        tasks.add(new Task(category: data['medication']['daysleft'], name: 'days left until refill allowed', completed: true));
         tasks.add(new Task(category: data['medication']['usage'], name: 'usage instructions', completed: true));
         tasks.add(new Task(category: data['medication']['prewarning'], name: 'Read this before using', completed: true));
 
@@ -206,8 +206,16 @@ class _MainPageState extends State<MainPage> {
     } else if (scanType == 'Food Allergy'){
       //todo
     } else if (scanType == 'Your Medication') {
-      Map data = await _getDrugsFromSocialNumber('0206929999');
-      print(data);
+      print("HAHAHAHAHAHAHAHAHAHAHAHAHA HAH A H");
+      print(taskList.length);
+      while (taskList.length!=0) {
+        taskList.removeAt(0);
+      }
+      setState(() {
+        this.taskList = taskList;
+      });
+      //Map data = await _getDrugsFromSocialNumber('0206929999');
+      //print(data);
     }
     
 
@@ -216,7 +224,7 @@ class _MainPageState extends State<MainPage> {
   Future<Map> _getDrugsFromSocialNumber(String ssn) async {
     final Map<String, dynamic> userData = {'socialnumber': ssn};
     final http.Response response = await http.post(
-        'https://nordichealth-heroku.herokuapp.com/medication',
+        'https://nordichealth-heroku.herokuapp.com/socialnumber',
         body: json.encode(userData),
         headers: {'Content-Type': 'application/json'});
 
