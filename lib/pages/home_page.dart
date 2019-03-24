@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
           _buildIamge(),
           _buildTopHeader(),
           _buildProfileRow(),
-          BottomInfo(scanTypeText, taskList),
+          BottomInfo(scanTypeText, taskList, _setPerscriptionInfo),
           _buildFab(),
         ],
       ),
@@ -200,6 +200,19 @@ class _MainPageState extends State<MainPage> {
         completed: true));
 
     return tasks;
+  }
+
+  void _setPerscriptionInfo() {
+    handleCabinet();
+
+    parsedCabinetData('Name', 'Metylphenidatum');
+    parsedCabinetData('Instructions', "Take 1 in the morning, 1 in the afternoon and half in the evening.");
+    parsedCabinetData('Days left of perscription', '2019-05-11');
+    parsedCabinetData('Days left of perscription', '51');
+    parsedCabinetData('Quantity of pills', '30');
+    setState(() {
+        this.taskList = taskList;
+      });
   }
 
   void parsedCabinetData(String category, String name) {

@@ -16,10 +16,11 @@ class BottomInfo extends StatelessWidget {
      
   final String scanTypeText;
   final List<Task> listTasks;
+  final Function _onClick;
   final GlobalKey<AnimatedListState> _listKeys =
       new GlobalKey<AnimatedListState>();
 
-  BottomInfo(this.scanTypeText, this.listTasks);
+  BottomInfo(this.scanTypeText, this.listTasks, this._onClick);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,7 @@ class BottomInfo extends StatelessWidget {
           key: _listKeys,
           itemBuilder: (context, index, animation) {
             return new TaskRow(
+              onClick: _onClick,
               task: listTasks[index],
               animations: animation,
             );
