@@ -206,6 +206,8 @@ class _MainPageState extends State<MainPage> {
         source: ImageSource.camera,
       );
       _uploadImage(image);
+    } else if (scanType == 'Food Allergy'){
+      //todo
     }
     
 
