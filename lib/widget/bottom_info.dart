@@ -8,15 +8,18 @@ import 'package:barcode_scan_example/pages/diagonal_clipper.dart';
 import 'package:barcode_scan_example/pages/list_model.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
-
+class listinn {
+  String name;
+  String category;  
+}
 class BottomInfo extends StatelessWidget {
-
+     
   final String scanTypeText;
-  final Map listData;
-  final GlobalKey<AnimatedListState> _listKey =
+  final List<Task> listTasks;
+  final GlobalKey<AnimatedListState> _listKeys =
       new GlobalKey<AnimatedListState>();
 
-  BottomInfo(this.scanTypeText, this.listData);
+  BottomInfo(this.scanTypeText, this.listTasks);
 
   @override
   Widget build(BuildContext context) {
@@ -35,23 +38,19 @@ class BottomInfo extends StatelessWidget {
   }
 
   Widget _buildTasksList() {
-    ListModel listModel;
-
-    return new Expanded(
-      child: new AnimatedList(
-       // initialItemCount: tasks.length, 
-        key: _listKey,
-        itemBuilder: (context, index, animation) {
-          print("${listData}Þetta er helvítis datað");
-          listModel.insert(index, listData['name'], listData['category']);
-
-          return new TaskRow(
-            task: listModel[index],
-            animation: animation,
-          );
-        },
-      ),
-    );
+      ListModel listModel;
+        return new Expanded(
+        child: new AnimatedList(
+          initialItemCount: listTasks.length, 
+          key: _listKeys,
+          itemBuilder: (context, index, animation) {
+            return new TaskRow(
+              task: listTasks[index],
+              animations: animation,
+            );
+          },
+        ),
+      );
   }
 
   Widget _buildMyTasksHeader() {
