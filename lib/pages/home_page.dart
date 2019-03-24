@@ -247,11 +247,10 @@ class _MainPageState extends State<MainPage> {
     } else if (scanTypeText == 'Your Medication') { 
       data = await _getDrugsFromSocialNumber("0206929999");
       print(data);
-      String a = "";
-      parsedCabinetData(data['userMedicine'][0]['daysLeft'], data['userMedicine'][0]['name']);
-      parsedCabinetData(data['userMedicine'][1]['daysLeft'], data['userMedicine'][1]['name']);
-      parsedCabinetData(data['userMedicine'][2]['daysLeft'], data['userMedicine'][2]['name']);
-      parsedCabinetData(data['userMedicine'][3]['daysLeft'], data['userMedicine'][3]['name']);
+      parsedCabinetData(data['userMedicine'][0]['instructions'], data['userMedicine'][0]['name']);
+      parsedCabinetData(data['userMedicine'][1]['instructions'], data['userMedicine'][1]['name']);
+      parsedCabinetData(data['userMedicine'][2]['instructions'], data['userMedicine'][2]['name']);
+      parsedCabinetData(data['userMedicine'][3]['instructions'], data['userMedicine'][3]['name']);
        setState(() {
         this.taskList = taskList;
       });
