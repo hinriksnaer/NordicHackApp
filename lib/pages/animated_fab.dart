@@ -46,10 +46,10 @@ class _AnimatedFabState extends State<AnimatedFab>
             alignment: Alignment.center,
             children: <Widget>[
               _buildExpandedBackground(),
-              _buildOption(Icons.local_pizza, 0.00, 'Food Allergy'),
-              _buildOption(Icons.local_pharmacy, -math.pi / 3, 'Drug Allergy'),
-              _buildOption(Icons.access_time, -2 * math.pi / 3, 'Drug Barcode'),
-              _buildOption(Icons.text_format, math.pi, 'Drug Text'),
+              _buildOption(Icons.local_pizza, 0.00, 'Your Medication'),
+              _buildOption(Icons.local_pharmacy, -math.pi / 3, 'Drug Barcode'),
+              _buildOption(Icons.text_format, -2 * math.pi / 3, 'Drug Text'),
+              _buildOption(Icons.access_time, math.pi, 'Food Allergy'),
               _buildFabCore(),
             ],
           );

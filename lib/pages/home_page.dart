@@ -187,7 +187,7 @@ class _MainPageState extends State<MainPage> {
 
   void _handleImageScan(String scanType) async {
     print(scanType);
-    if (scanType == 'Drug Allergy') {
+    if (scanType == 'Drug Barcode') {
       await _scan(scanType);
       Map data = await _getDrugFromBarcode(barcode);  
     
@@ -202,8 +202,8 @@ class _MainPageState extends State<MainPage> {
     } else if (scanType == 'Food Allergy'){
       //todo
     } else if (scanType == 'Your Medication') {
-      _getDrugsFromSocialNumber('0206929999');
-
+      Map data = await _getDrugsFromSocialNumber('0206929999');
+      print(data);
     }
     
 
