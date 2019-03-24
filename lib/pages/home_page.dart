@@ -202,9 +202,21 @@ class _MainPageState extends State<MainPage> {
     } else if (scanType == 'Food Allergy'){
       //todo
     } else if (scanType == 'Your Medication') {
-      //todo
+      _getDrugsFromSocialNumber('0206929999');
+
     }
     
+
+  }
+
+  Future<Map> _getDrugsFromSocialNumber(String ssn) async {
+    final Map<String, dynamic> userData = {'socialnumber': ssn};
+    final http.Response response = await http.post(
+        'https://nordichealth-heroku.herokuapp.com/medication',
+        body: json.encode(userData),
+        headers: {'Content-Type': 'application/json'});
+
+    return json.decode(response.body);
 
   }
 
