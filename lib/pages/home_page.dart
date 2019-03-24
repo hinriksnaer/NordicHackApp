@@ -8,6 +8,11 @@ import 'package:barcode_scan_example/pages/diagonal_clipper.dart';
 import 'package:barcode_scan_example/pages/list_model.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 import '../widget/bottom_info.dart';
 
@@ -19,7 +24,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   final double _imageHeight = 256.0;
   Map data = null;
   bool showOnlyCompleted = false;
@@ -36,7 +40,7 @@ class _MainPageState extends State<MainPage> {
     return new Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _handleImageScan('bla');
+          _handleImageScan(scanTypeText);
         },
         child: Icon(Icons.camera_alt),
       ),
@@ -179,20 +183,24 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _handleImageScan(String scanType) async {
-    await _scan(scanType);
-    data = await _getAllergyInformation(barcode);
-    //Here comes the data from the postrequest
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    print(data);
-    setState(() {
-      this.data = data;
-    });
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    print(scanType);
+    if (scanType == 'Drug Allergy') {
+      await _scan(scanType);
+      data = await _getAllergyInformation(barcode);
 
+      setState(() {
+        this.data = data;
+      });
+    } else if (scanType == 'Drug Text') {
+      File image = await ImagePicker.pickImage(
+        source: ImageSource.camera,
+      );
+      _uploadImage(image);
+    }
   }
 
   Future<Map> _getAllergyInformation(String barcode) async {
-    final Map<String, dynamic> allergyData = {'barcode': barcode}; 
+    final Map<String, dynamic> allergyData = {'barcode': barcode};
 
     final http.Response response = await http.post(
         'https://nordichealth-heroku.herokuapp.com/medication',
@@ -202,49 +210,20 @@ class _MainPageState extends State<MainPage> {
     return json.decode(response.body);
   }
 
-  /*
-  Future<bool> addProduct(
-      String title, String description, String image, double price) async {
-    _isLoading = true;
-    notifyListeners();
-    final Map<String, dynamic> productData = {
-      'title': title,
-      'description': description,
-      'image':
-          'https://cdn.pixabay.com/photo/2015/10/02/12/00/chocolate-968457_960_720.jpg',
-      'price': price,
-      'userEmail': _authenticatedUser.email,
-      'userId': _authenticatedUser.id,
-    };
+  void _uploadImage(File image) async {
     try {
-      final http.Response response = await http.post(
-        'https://flutter-products-cd0ed.firebaseio.com/products.json?auth${_authenticatedUser.token}',
-        body: json.encode(productData),
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 201) {
-        _isLoading = false;
-        notifyListeners();
-        return false;
-      }
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      final Product newProduct = Product(
-          id: responseData['name'],
-          title: title,
-          description: description,
-          image: image,
-          price: price,
-          userEmail: _authenticatedUser.email,
-          userId: _authenticatedUser.id);
-      _products.add(newProduct);
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } catch (error) {
-      _isLoading = false;
-      notifyListeners();
-      return false;
+      if (image == null) return;
+      String base64Image = base64Encode(image.readAsBytesSync());
+      String fileName = image.path.split("/").last;
+      http.Response response = await http
+          .post('https://nordichealth-heroku.herokuapp.com/image', body: {
+        "image": base64Image,
+        "name": fileName,
+      });
+      print(response.statusCode);
+      print(json.decode(response.body));
+    } catch (e) {
+      print(e.toString());
     }
   }
-  */
 }
