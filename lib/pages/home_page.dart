@@ -252,8 +252,8 @@ class _MainPageState extends State<MainPage> {
         await _scan(scanType);
         data = await _handleFoodAllergy(barcode);
         scanTypeText = data['allergies'][0]['type'];
-        parsedCabinetData(data['allergies'][0]['component'], 'Substance');
-        parsedCabinetData(data['allergies'][0]['classification'], 'Severity of allergies');
+        parsedCabinetData(data['allergies'][0]['component'], 'Warning you have allergies \nfor the following:');
+        parsedCabinetData(data['allergies'][0]['classification'], 'Allergic reactions can be:');
         setState(() {
           this.taskList = taskList;
         });
