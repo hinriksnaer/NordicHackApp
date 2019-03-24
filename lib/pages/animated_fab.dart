@@ -47,9 +47,9 @@ class _AnimatedFabState extends State<AnimatedFab>
             children: <Widget>[
               _buildExpandedBackground(),              
               _buildOption(Icons.perm_identity, 0.00, 'Your Medication'),
-              _buildOption(Icons.crop_free, -math.pi / 3, 'Drug Barcode'),
-              _buildOption(Icons.camera_alt, -2 * math.pi / 3, 'Drug Vnr'),
-              _buildOption(Icons.access_time, math.pi, 'Food Allergy'),
+              _buildOption(Icons.center_focus_weak, -math.pi / 3, 'Scan Barcode \nfor medication info'),
+              _buildOption(Icons.camera_alt, -2 * math.pi / 3, 'Scan Vnr \nfor medication info'),
+              _buildOption(Icons.blur_on, math.pi, 'Scan barcode \nfor Allergy detection'),
               _buildFabCore(),
             ],
           );

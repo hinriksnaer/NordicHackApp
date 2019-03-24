@@ -22,19 +22,19 @@ class _MainPageState extends State<MainPage> {
   final double _imageHeight = 256.0;
   List<Task> taskList = new List<Task>();
   bool showOnlyCompleted = false;
-  String scanTypeText = 'Your Medication';
+  String scanTypeText = 'Your Medication'; 
   String barcode = "";
+
 
   @override
   void initState() {
     super.initState();
+    _handleImageScan(scanTypeText);
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    print("hehehehehehe ");
-    print(scanTypeText);
-
     return new Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -121,7 +121,7 @@ class _MainPageState extends State<MainPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 new Text(
-                  'Helgi Grétar',
+                  'Karl Jensen',
                   style: new TextStyle(
                       fontSize: 26.0,
                       color: Colors.white,
@@ -180,19 +180,19 @@ class _MainPageState extends State<MainPage> {
         category: '', name: data['medication']['name'], completed: true));
     tasks.add(new Task(
         category: data['medication']['directions'],
-        name: 'instructions',
+        name: 'Instructions',
         completed: true));
     tasks.add(new Task(
         category: data['medication']['quantity'],
-        name: 'quantity',
+        name: 'Quantity',
         completed: true));
     tasks.add(new Task(
         category: data['medication']['daysleft'],
-        name: 'days left until refill allowed',
+        name: 'Days left until refill allowed',
         completed: true));
     tasks.add(new Task(
         category: data['medication']['usage'],
-        name: 'usage instructions',
+        name: 'Usage instructions',
         completed: true));
     tasks.add(new Task(
         category: data['medication']['prewarning'],
@@ -220,14 +220,14 @@ class _MainPageState extends State<MainPage> {
     print(scanType);
     handleCabinet();
 
-    if (scanType == 'Drug Barcode') {
+    if (scanType == 'Scan Barcode \nfor medication info') {
       await _scan(scanType);
       data = await _getDrugFromBarcode(barcode);
 
       setState(() {
         this.taskList = parsedBarcodeData(data);
       });
-    } else if (scanType == 'Drug Vnr') {
+    } else if (scanType == 'Scan Vnr \nfor medication info') {
       File image = await ImagePicker.pickImage(
         source: ImageSource.camera,
       );
@@ -235,18 +235,15 @@ class _MainPageState extends State<MainPage> {
       setState(() {
         this.taskList = parsedBarcodeData(data);
       });
-    } else if (scanType == 'Food Allergy') {
-      await _scan(scanType);
-      data = await _handleFoodAllergy(barcode);
-      String a ="";
-      parsedCabinetData(data['allergies'][0]['component'], 'type of ${data['allergies'][0]['type']}');
-      parsedCabinetData(data['allergies'][0]['classification'], 'severity of allergies');
-
-     // parsedCabinetData(, 'name');
-
-      setState(() {
-        this.taskList = taskList;
-      });
+    } else if (scanType == 'Scan barcode \nfor Allergy detection') {
+        await _scan(scanType);
+        data = await _handleFoodAllergy(barcode);
+        scanTypeText = data['allergies'][0]['type'];
+        parsedCabinetData(data['allergies'][0]['component'], 'Substance');
+        parsedCabinetData(data['allergies'][0]['classification'], 'Severity of allergies');
+        setState(() {
+          this.taskList = taskList;
+        });
 
 
 
