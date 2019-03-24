@@ -22,19 +22,18 @@ class TaskRow extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: 32.0 - dotSize / 2),                                           
               ),
-              new Padding(padding: EdgeInsets.only(right: 10.0,top: 5.0),),
+              new Padding(padding: EdgeInsets.only(left: 0.0),),
               new Expanded(
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: <Widget>[                    
                     new Text(
-                      task.name,
+                      task.name, 
                       style: new TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
                     ),
                     new Text(
                       task.category,
-                      style: new TextStyle(fontSize: 12.0, color: Colors.grey),
-                      
+                      style: new TextStyle(fontSize: 12.0, color: Colors.grey),                      
                     )
                   ],
                 ),

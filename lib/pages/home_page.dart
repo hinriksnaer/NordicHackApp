@@ -27,7 +27,7 @@ class _MainPageState extends State<MainPage> {
   final double _imageHeight = 256.0;
   List<Task> taskList = new List<Task>();
   bool showOnlyCompleted = false;
-  String scanTypeText = 'Food Allergy';
+  String scanTypeText = 'Your Medication';
   String barcode = "";
 
   @override

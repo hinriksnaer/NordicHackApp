@@ -61,7 +61,7 @@ class BottomInfo extends StatelessWidget {
         children: <Widget>[
           new Text(
             scanTypeText,
-            style: new TextStyle(fontSize: 34.0),
+            style: new TextStyle(fontSize: 30.0),
           ),
           
         ],
