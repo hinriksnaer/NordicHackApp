@@ -70,7 +70,7 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildFab() {
     return new Positioned(
-        top: _imageHeight - 100.0,
+        top: 50,//_imageHeight - 100.0,
         right: -40.0,
         child: new AnimatedFab(
           onClick: _changeFilterState,
@@ -116,16 +116,16 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildProfileRow() {
     return new Padding(
-      padding: new EdgeInsets.only(left: 16.0, top: _imageHeight / 2.5),
+      padding: new EdgeInsets.only(left: 16.0, top: _imageHeight / 4.9),
       child: new Row(
         children: <Widget>[
           new CircleAvatar(
-            minRadius: 28.0,
-            maxRadius: 28.0,
+            minRadius: 27.0, 
+            maxRadius: 27.0,
             backgroundImage: new AssetImage('images/avatar.jpg'),
           ),
           new Padding(
-            padding: const EdgeInsets.only(left: 16.0),
+            padding: const EdgeInsets.only(left: 16.0,),
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,

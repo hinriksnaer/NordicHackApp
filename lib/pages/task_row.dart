@@ -20,9 +20,7 @@ class TaskRow extends StatelessWidget {
             children: <Widget>[
               new Padding(
                 padding:
-                    EdgeInsets.symmetric(horizontal: 32.0 - dotSize / 2),
-                
-                           
+                    EdgeInsets.symmetric(horizontal: 32.0 - dotSize / 2),                                           
               ),
               new Padding(padding: EdgeInsets.only(right: 10.0,top: 5.0),),
               new Expanded(
@@ -34,7 +32,6 @@ class TaskRow extends StatelessWidget {
                       style: new TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
                     ),
                     new Text(
-                      
                       task.category,
                       style: new TextStyle(fontSize: 12.0, color: Colors.grey),
                       

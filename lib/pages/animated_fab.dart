@@ -49,7 +49,6 @@ class _AnimatedFabState extends State<AnimatedFab>
               _buildOption(Icons.perm_identity, 0.00, 'Your Medication'),
               _buildOption(Icons.crop_free, -math.pi / 3, 'Drug Barcode'),
               _buildOption(Icons.camera_alt, -2 * math.pi / 3, 'Drug Vnr'),
-              _buildOption(Icons.access_time, math.pi, 'Food Allergy'),
               _buildFabCore(),
             ],
           );
@@ -99,7 +98,7 @@ class _AnimatedFabState extends State<AnimatedFab>
       decoration: new BoxDecoration(shape: BoxShape.circle, color: Colors.pink),
     );
   }
-
+  //Fyrir logo í takkan
   Widget _buildFabCore() {
     double scaleFactor = 2 * (_animationController.value - 0.5).abs();
     return new FloatingActionButton(
@@ -110,7 +109,7 @@ class _AnimatedFabState extends State<AnimatedFab>
         child: new Icon(
           _animationController.value > 0.5 ? Icons.close : Icons.filter_list,
           color: Colors.white,
-          size: 26.0,
+          size: 30.0,
         ),
       ),
       backgroundColor: _colorAnimation.value,

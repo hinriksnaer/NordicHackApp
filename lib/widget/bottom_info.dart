@@ -23,7 +23,7 @@ class BottomInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double _imageHeight = 256.0;
+    final double _imageHeight = 130.0;
 
     return new Padding(
       padding: new EdgeInsets.only(top: _imageHeight),
@@ -55,7 +55,7 @@ class BottomInfo extends StatelessWidget {
 
   Widget _buildMyTasksHeader() {
     return new Padding(
-      padding: new EdgeInsets.only(left: 64.0),
+      padding: new EdgeInsets.only(left: 32.0,bottom: 0.0), 
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -63,10 +63,7 @@ class BottomInfo extends StatelessWidget {
             scanTypeText,
             style: new TextStyle(fontSize: 34.0),
           ),
-          new Text(
-            '',
-            style: new TextStyle(color: Colors.grey, fontSize: 12.0),
-          ),
+          
         ],
       ),
     );
