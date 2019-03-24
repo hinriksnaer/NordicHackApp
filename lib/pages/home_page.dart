@@ -187,8 +187,8 @@ class _MainPageState extends State<MainPage> {
   List<Task> parsedBarcodeData(Map data) {
     List<Task> tasks = new List<Task>();      
         tasks.add(new Task(category: '', name: data['medication']['name'], completed: true)); 
-        tasks.add(new Task(category: data['medication']['directions'], name: 'Instructions', completed: true));
-        tasks.add(new Task(category: data['medication']['quantity'], name: 'Quantity', completed: true));
+        tasks.add(new Task(category: data['medication']['directions'], name: 'instructions', completed: true));
+        tasks.add(new Task(category: data['medication']['quantity'], name: 'quantity', completed: true));
         tasks.add(new Task(category: data['medication']['daysleft'], name: 'days left until refill allowed', completed: true));
         tasks.add(new Task(category: data['medication']['usage'], name: 'usage instructions', completed: true));
         tasks.add(new Task(category: data['medication']['prewarning'], name: 'Read this before using', completed: true));
