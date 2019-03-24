@@ -1,18 +1,13 @@
 import 'dart:convert';
 import 'package:barcode_scan_example/pages/task.dart';
-import 'package:barcode_scan_example/pages/task_row.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:barcode_scan_example/pages/animated_fab.dart';
 import 'package:barcode_scan_example/pages/diagonal_clipper.dart';
-import 'package:barcode_scan_example/pages/list_model.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 
 import '../widget/bottom_info.dart';
 
@@ -218,8 +213,6 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       this.taskList = taskList;
     });
-    //Map data = await _getDrugsFromSocialNumber('0206929999');
-    //print(data);
   }
 
   void _handleImageScan(String scanType) async {
@@ -243,19 +236,38 @@ class _MainPageState extends State<MainPage> {
         this.taskList = parsedBarcodeData(data);
       });
     } else if (scanType == 'Food Allergy') {
-      //todo
+      await _scan(scanType);
+      data = await _handleFoodAllergy(barcode);
+      print(data['allergies'][0]);
+      print(data);
+      parsedCabinetData(data['allergies'][0]['nuts'], 'Item');
+      parsedCabinetData(data['allergies'][0]['classification'], 'Symptons');
+
+
+
+
     } else if (scanTypeText == 'Your Medication') { 
       data = await _getDrugsFromSocialNumber("0206929999");
       print(data);
       String a = "";
-      parsedCabinetData(data['userMedicine'][0]['daysLeft'], data['userMedicine'][0]['name']);
-      parsedCabinetData(data['userMedicine'][1]['daysLeft'], data['userMedicine'][1]['name']);
-      parsedCabinetData(data['userMedicine'][2]['daysLeft'], data['userMedicine'][2]['name']);
-      parsedCabinetData(data['userMedicine'][3]['daysLeft'], data['userMedicine'][3]['name']);
+      parsedCabinetData(data['userMedicine'][0]['instructions'], data['userMedicine'][0]['name']);
+      parsedCabinetData(data['userMedicine'][1]['instructions'], data['userMedicine'][1]['name']);
+      parsedCabinetData(data['userMedicine'][2]['instructions'], data['userMedicine'][2]['name']);
+      parsedCabinetData(data['userMedicine'][3]['instructions'], data['userMedicine'][3]['name']);
        setState(() {
         this.taskList = taskList;
       });
     }
+  }
+    
+  Future<Map> _handleFoodAllergy(String barcode) async {
+    final Map<String, dynamic> userData = {'barcode': barcode, 'socialID': '0206929999'};
+    final http.Response response = await http.post(
+        'https://nordichealth-heroku.herokuapp.com/food',
+        body: json.encode(userData),
+        headers: {'Content-Type': 'application/json'});
+
+    return json.decode(response.body);
   }
 
   Future<Map> _getDrugsFromSocialNumber(String ssn) async {
