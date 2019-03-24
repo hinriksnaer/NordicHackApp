@@ -21,7 +21,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
 
   final double _imageHeight = 256.0;
-  Map data = null;
+  List<Task> taskList = new List<Task>();
   bool showOnlyCompleted = false;
   String scanTypeText = 'Food Allergy';
   String barcode = "";
@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
           _buildIamge(),
           _buildTopHeader(),
           _buildProfileRow(),
-          BottomInfo(scanTypeText, data),
+          BottomInfo(scanTypeText, taskList),
           _buildFab(),
         ],
       ),
@@ -132,7 +132,7 @@ class _MainPageState extends State<MainPage> {
                       fontWeight: FontWeight.w400),
                 ),
                 new Text(
-                  'Happy Us er ',
+                  '',
                   style: new TextStyle(
                       fontSize: 14.0,
                       color: Colors.white,
@@ -178,14 +178,22 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  List<Task> parsedBarcodeData(Map data) {
+    List<Task> tasks = new List<Task>();      
+        tasks.add(new Task(category: '', name: data['medication']['name'], completed: true)); 
+        tasks.add(new Task(category: data['medication']['directions'], name: 'Instructions', completed: true));
+        tasks.add(new Task(category: data['medication']['quantity'], name: 'Quantity', completed: true));
+        tasks.add(new Task(category: data['medication']['daysleft'], name: 'days Left', completed: true));
+
+    return tasks;
+  }
+
   void _handleImageScan(String scanType) async {
     await _scan(scanType);
-    data = await _getAllergyInformation(barcode);
-    //Here comes the data from the postrequest
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    print(data);
+    Map data = await _getAllergyInformation(barcode);  
+    
     setState(() {
-      this.data = data;
+      this.taskList = parsedBarcodeData(data);
     });
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 

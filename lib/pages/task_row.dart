@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 class TaskRow extends StatelessWidget {
   final Task task;
   final double dotSize = 12.0;
-  final Animation<double> animation;
+  final Animation<double> animations;
 
-  const TaskRow({Key key, this.task, this.animation}) : super(key: key);
+  const TaskRow({Key key, this.task, this.animations}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return new FadeTransition(
-      opacity: animation,
+      opacity: animations,
       child: new SizeTransition(
-        sizeFactor: animation,
+        sizeFactor: animations,
         child: new Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: new Row(
