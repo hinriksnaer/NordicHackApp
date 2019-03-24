@@ -244,14 +244,17 @@ class _MainPageState extends State<MainPage> {
       });
     } else if (scanType == 'Food Allergy') {
       //todo
-    } else if (scanTypeText == 'Your Medication') {
-      handleCabinet();
-      parsedCabinetData("category", "nafnið");
-      parsedCabinetData("werwerwer", "ewrewr");
-      parsedCabinetData("werr", "nafwerwernið");
-      parsedCabinetData("ewrwerwer", "werwer");
-      parsedCabinetData("cawerwertegory", "werwer");
-      parsedCabinetData("category", "nafwerwernið");
+    } else if (scanTypeText == 'Your Medication') { 
+      data = await _getDrugsFromSocialNumber("0206929999");
+      print(data);
+      String a = "";
+      parsedCabinetData(data['userMedicine'][0]['daysLeft'], data['userMedicine'][0]['name']);
+      parsedCabinetData(data['userMedicine'][1]['daysLeft'], data['userMedicine'][1]['name']);
+      parsedCabinetData(data['userMedicine'][2]['daysLeft'], data['userMedicine'][2]['name']);
+      parsedCabinetData(data['userMedicine'][3]['daysLeft'], data['userMedicine'][3]['name']);
+       setState(() {
+        this.taskList = taskList;
+      });
     }
   }
 
