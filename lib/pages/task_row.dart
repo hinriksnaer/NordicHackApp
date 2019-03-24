@@ -39,7 +39,7 @@ class TaskRow extends StatelessWidget {
                       new Text(
                         task.category,
                         style:
-                            new TextStyle(fontSize: 12.0, color: Colors.grey),
+                            new TextStyle(fontSize: 20.0, color: Colors.grey),
                       )
                     ],
                   ),

@@ -245,6 +245,7 @@ class _MainPageState extends State<MainPage> {
         source: ImageSource.camera,
       );
       data = await _uploadImage(image);
+      print(data);
       setState(() {
         this.taskList = parsedBarcodeData(data);
       });
