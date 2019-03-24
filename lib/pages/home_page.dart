@@ -201,6 +201,8 @@ class _MainPageState extends State<MainPage> {
       _uploadImage(image);
     } else if (scanType == 'Food Allergy'){
       //todo
+    } else if (scanType == 'Your Medication') {
+      //todo
     }
     
 
