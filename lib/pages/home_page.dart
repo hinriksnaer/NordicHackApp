@@ -186,19 +186,23 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _handleImageScan(String scanType) async {
+    Map data;
     print(scanType);
     if (scanType == 'Drug Barcode') {
       await _scan(scanType);
-      Map data = await _getDrugFromBarcode(barcode);  
+      data = await _getDrugFromBarcode(barcode);  
     
       setState(() {
         this.taskList = parsedBarcodeData(data);
       });
-    } else if (scanType == 'Drug Text') {
+    } else if (scanType == 'Drug Vnr') {
       File image = await ImagePicker.pickImage(
         source: ImageSource.camera,
       );
-      _uploadImage(image);
+      data = await _uploadImage(image); 
+      setState(() {
+        this.taskList = parsedBarcodeData(data);
+      });
     } else if (scanType == 'Food Allergy'){
       //todo
     } else if (scanType == 'Your Medication') {
@@ -231,9 +235,8 @@ class _MainPageState extends State<MainPage> {
     return json.decode(response.body);
   }
 
-  void _uploadImage(File image) async {
-    try {
-      if (image == null) return;
+  Future<Map> _uploadImage(File image) async {
+    try{
       String base64Image = base64Encode(image.readAsBytesSync());
       String fileName = image.path.split("/").last;
       http.Response response = await http
@@ -243,8 +246,11 @@ class _MainPageState extends State<MainPage> {
       });
       print(response.statusCode);
       print(json.decode(response.body));
-    } catch (e) {
-      print(e.toString());
+      return json.decode(response.body);
+    }catch(e){    
+      
     }
+
+    
   }
 }
