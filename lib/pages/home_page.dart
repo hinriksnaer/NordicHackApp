@@ -187,7 +187,7 @@ class _MainPageState extends State<MainPage> {
     print(scanType);
     if (scanType == 'Drug Allergy') {
       await _scan(scanType);
-      Map data = await _getAllergyInformation(barcode);  
+      Map data = await _getDrugFromBarcode(barcode);  
     
       setState(() {
         this.taskList = parsedBarcodeData(data);
@@ -204,7 +204,7 @@ class _MainPageState extends State<MainPage> {
 
   }
 
-  Future<Map> _getAllergyInformation(String barcode) async {
+  Future<Map> _getDrugFromBarcode(String barcode) async {
     final Map<String, dynamic> allergyData = {'barcode': barcode};
 
     final http.Response response = await http.post(
