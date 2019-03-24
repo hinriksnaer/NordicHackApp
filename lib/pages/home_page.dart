@@ -37,25 +37,17 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-      print("hehehehehehe ");
-      print(scanTypeText);
-      if(scanTypeText == 'Your Medication'){
-        handleCabinet();        
-        parsedCabinetData("category","nafnið");
-        parsedCabinetData("werwerwer","ewrewr");
-        parsedCabinetData("werr","nafwerwernið");
-        parsedCabinetData("ewrwerwer","werwer");
-        parsedCabinetData("cawerwertegory","werwer");
-        parsedCabinetData("category","nafwerwernið");
-      }
+    print("hehehehehehe ");
+    print(scanTypeText);
+
     return new Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {        
+        onPressed: () {
           _handleImageScan(scanTypeText);
         },
         child: Icon(Icons.camera_alt),
       ),
-      body: new Stack(        
+      body: new Stack(
         children: <Widget>[
           _buildTimeline(),
           _buildIamge(),
@@ -70,7 +62,7 @@ class _MainPageState extends State<MainPage> {
 
   Widget _buildFab() {
     return new Positioned(
-        top: 50,//_imageHeight - 100.0,
+        top: 50, //_imageHeight - 100.0,
         right: -40.0,
         child: new AnimatedFab(
           onClick: _changeFilterState,
@@ -78,6 +70,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _changeFilterState(String scanTypeText) {
+    handleCabinet();
     setState(() {
       this.scanTypeText = scanTypeText;
     });
@@ -106,7 +99,7 @@ class _MainPageState extends State<MainPage> {
         children: <Widget>[
           new Expanded(
             child: new Padding(
-              padding: const EdgeInsets.only(left: 16.0),              
+              padding: const EdgeInsets.only(left: 16.0),
             ),
           ),
         ],
@@ -120,12 +113,14 @@ class _MainPageState extends State<MainPage> {
       child: new Row(
         children: <Widget>[
           new CircleAvatar(
-            minRadius: 27.0, 
+            minRadius: 27.0,
             maxRadius: 27.0,
             backgroundImage: new AssetImage('images/avatar.jpg'),
           ),
           new Padding(
-            padding: const EdgeInsets.only(left: 16.0,),
+            padding: const EdgeInsets.only(
+              left: 16.0,
+            ),
             child: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -185,38 +180,57 @@ class _MainPageState extends State<MainPage> {
   }
 
   List<Task> parsedBarcodeData(Map data) {
-    List<Task> tasks = new List<Task>();      
-        tasks.add(new Task(category: '', name: data['medication']['name'], completed: true)); 
-        tasks.add(new Task(category: data['medication']['directions'], name: 'instructions', completed: true));
-        tasks.add(new Task(category: data['medication']['quantity'], name: 'quantity', completed: true));
-        tasks.add(new Task(category: data['medication']['daysleft'], name: 'days left until refill allowed', completed: true));
-        tasks.add(new Task(category: data['medication']['usage'], name: 'usage instructions', completed: true));
-        tasks.add(new Task(category: data['medication']['prewarning'], name: 'Read this before using', completed: true));
+    List<Task> tasks = new List<Task>();
+    tasks.add(new Task(
+        category: '', name: data['medication']['name'], completed: true));
+    tasks.add(new Task(
+        category: data['medication']['directions'],
+        name: 'instructions',
+        completed: true));
+    tasks.add(new Task(
+        category: data['medication']['quantity'],
+        name: 'quantity',
+        completed: true));
+    tasks.add(new Task(
+        category: data['medication']['daysleft'],
+        name: 'days left until refill allowed',
+        completed: true));
+    tasks.add(new Task(
+        category: data['medication']['usage'],
+        name: 'usage instructions',
+        completed: true));
+    tasks.add(new Task(
+        category: data['medication']['prewarning'],
+        name: 'Read this before using',
+        completed: true));
 
     return tasks;
   }
-  void parsedCabinetData(String category, String name){
-      taskList.add(new Task(category: category, name:name,completed:true));        
+
+  void parsedCabinetData(String category, String name) {
+    taskList.add(new Task(category: category, name: name, completed: true));
   }
-  void handleCabinet() async{      
-      while (taskList.length!=0) {
-        taskList.removeAt(0);
-      }
-      setState(() {
-        this.taskList = taskList;
-      });
-      //Map data = await _getDrugsFromSocialNumber('0206929999');
-      //print(data);
+
+  void handleCabinet() async {
+    while (taskList.length != 0) {
+      taskList.removeAt(0);
+    }
+    setState(() {
+      this.taskList = taskList;
+    });
+    //Map data = await _getDrugsFromSocialNumber('0206929999');
+    //print(data);
   }
+
   void _handleImageScan(String scanType) async {
     Map data;
     print(scanType);
     handleCabinet();
-    
+
     if (scanType == 'Drug Barcode') {
       await _scan(scanType);
-      data = await _getDrugFromBarcode(barcode);  
-    
+      data = await _getDrugFromBarcode(barcode);
+
       setState(() {
         this.taskList = parsedBarcodeData(data);
       });
@@ -224,18 +238,21 @@ class _MainPageState extends State<MainPage> {
       File image = await ImagePicker.pickImage(
         source: ImageSource.camera,
       );
-      data = await _uploadImage(image); 
+      data = await _uploadImage(image);
       setState(() {
         this.taskList = parsedBarcodeData(data);
       });
-    } else if (scanType == 'Food Allergy'){
+    } else if (scanType == 'Food Allergy') {
       //todo
-    } else if (scanType == 'Your Medication') {
-        
-       
+    } else if (scanTypeText == 'Your Medication') {
+      handleCabinet();
+      parsedCabinetData("category", "nafnið");
+      parsedCabinetData("werwerwer", "ewrewr");
+      parsedCabinetData("werr", "nafwerwernið");
+      parsedCabinetData("ewrwerwer", "werwer");
+      parsedCabinetData("cawerwertegory", "werwer");
+      parsedCabinetData("category", "nafwerwernið");
     }
-    
-
   }
 
   Future<Map> _getDrugsFromSocialNumber(String ssn) async {
@@ -246,7 +263,6 @@ class _MainPageState extends State<MainPage> {
         headers: {'Content-Type': 'application/json'});
 
     return json.decode(response.body);
-
   }
 
   Future<Map> _getDrugFromBarcode(String barcode) async {
@@ -261,7 +277,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<Map> _uploadImage(File image) async {
-    try{
+    try {
       String base64Image = base64Encode(image.readAsBytesSync());
       String fileName = image.path.split("/").last;
       http.Response response = await http
@@ -272,10 +288,6 @@ class _MainPageState extends State<MainPage> {
       print(response.statusCode);
       print(json.decode(response.body));
       return json.decode(response.body);
-    }catch(e){    
-      
-    }
-
-    
+    } catch (e) {}
   }
 }
