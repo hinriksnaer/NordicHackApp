@@ -179,6 +179,8 @@ class _MainPageState extends State<MainPage> {
         tasks.add(new Task(category: data['medication']['directions'], name: 'Instructions', completed: true));
         tasks.add(new Task(category: data['medication']['quantity'], name: 'Quantity', completed: true));
         tasks.add(new Task(category: data['medication']['daysleft'], name: 'days Left', completed: true));
+        tasks.add(new Task(category: data['medication']['usage'], name: 'usage instructions', completed: true));
+        tasks.add(new Task(category: data['medication']['prewarning'], name: 'Read this before using', completed: true));
 
     return tasks;
   }
